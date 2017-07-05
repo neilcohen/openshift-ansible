@@ -108,7 +108,7 @@
       groups: oo_new_etcd_to_config
       ansible_ssh_user: "{{ g_ssh_user | default(omit) }}"
       ansible_become: "{{ g_sudo | default(omit) }}"
-    with_items: "{{ g_etcd_hosts | default([]) }}"
+    with_items: "{{ g_new_etcd_hosts | default([]) }}"
     changed_when: no
 
   - name: Evaluate oo_lb_to_config

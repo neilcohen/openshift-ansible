@@ -1,4 +1,11 @@
 ---
+- include: ../openshift-cluster/evaluate_groups.yml
+
+- name: Gather facts
+  hosts: oo_etcd_to_config:oo_new_etcd_to_config
+  roles:
+  - openshift_etcd_facts
+
 - name: Configure etcd
   hosts: oo_new_etcd_to_config
   serial: 1
@@ -8,7 +15,7 @@
   pre_tasks:
   - name: Add new etcd members to cluster
     command: >
-      /usr/bin/etcdctl  --cert-file {{ etcd_peer_cert_file }}
+      /usr/bin/etcdctl_no_proxy --cert-file {{ etcd_peer_cert_file }}
                         --key-file {{ etcd_peer_key_file }}
                         --ca-file {{ etcd_peer_ca_file }}
                         -C {{ etcd_peer_url_scheme }}://{{ etcd_ca_host }}:{{ etcd_client_port }}
