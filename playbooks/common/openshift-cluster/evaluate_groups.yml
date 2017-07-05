@@ -7,7 +7,7 @@
   tasks:
   - fail:
       msg: This playbook requires g_etcd_hosts to be set
-    when: g_etcd_hosts is not defined
+    when: g_etcd_hosts is not defined and g_new_etcd_hosts is not defined
 
   - fail:
       msg: This playbook requires g_master_hosts or g_new_master_hosts to be set
@@ -100,6 +100,15 @@
       ansible_ssh_user: "{{ g_ssh_user | default(omit) }}"
       ansible_become: "{{ g_sudo | default(omit) }}"
     when: g_master_hosts|length > 0
+    changed_when: no
+
+  - name: Evaluate oo_new_etcd_to_config
+    add_host:
+      name: "{{ item }}"
+      groups: oo_new_etcd_to_config
+      ansible_ssh_user: "{{ g_ssh_user | default(omit) }}"
+      ansible_become: "{{ g_sudo | default(omit) }}"
+    with_items: "{{ g_etcd_hosts | default([]) }}"
     changed_when: no
 
   - name: Evaluate oo_lb_to_config
