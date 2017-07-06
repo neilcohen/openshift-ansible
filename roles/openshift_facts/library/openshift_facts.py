@@ -672,15 +672,17 @@ def set_url_facts_if_unset(facts):
         etcd_urls = []
         if 'etcd_loadbalancer_host' in facts['master']:
             etcd_urls = [format_url(use_ssl['etcd'], facts['master']['etcd_loadbalancer_host'],
-                                    facts['master']['etcd_loadbalancer_port']]
+                                    facts['master']['etcd_loadbalancer_port'])]
         else
-           if etcd_hosts != '':
-               facts['master']['etcd_port'] = ports['etcd']
-               facts['master']['embedded_etcd'] = False
-               for host in etcd_hosts:
-                   etcd_urls.append(format_url(use_ssl['etcd'], host,
-                                               ports['etcd']))
-           else:
+            if etcd_hosts != '':
+                facts['master']['etcd_port'] = ports['etcd']
+                facts['master']['embedded_etcd'] = False
+                for host in etcd_hosts:
+                    etcd_urls.append(format_url(use_ssl['etcd'], host,
+                                                ports['etcd']))
+            else:
+                etcd_urls = [format_url(use_ssl['etcd'], hostname,
+                                        ports['etcd'])]
 
         facts['master'].setdefault('etcd_urls', etcd_urls)
 
