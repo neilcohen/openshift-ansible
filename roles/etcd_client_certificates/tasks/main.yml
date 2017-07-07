@@ -51,7 +51,7 @@
     creates: "{{ etcd_generated_certs_dir ~ '/' ~  etcd_cert_subdir ~ '/'
                  ~ etcd_cert_prefix ~ 'client.csr' }}"
   environment:
-    SAN: "{{ 'DNS::' + openshift_etcd_loadbalancer_host + ',IP:' + etcd_ip if openshift_etcd_loadbalancer_host is defined else 'IP:' + etcd_ip }}"
+    SAN: "{{ etcd_ip }}"
   when: etcd_client_certs_missing | bool
   delegate_to: "{{ etcd_ca_host }}"
 
