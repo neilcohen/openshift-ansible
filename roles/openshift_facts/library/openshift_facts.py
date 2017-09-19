@@ -21,6 +21,7 @@ from distutils.util import strtobool
 from distutils.version import LooseVersion
 from six import string_types, text_type
 from six.moves import configparser
+from ansible.module_utils.facts.utils import get_file_content
 
 # ignore pylint errors related to the module_utils import
 # pylint: disable=redefined-builtin, unused-wildcard-import, wildcard-import
